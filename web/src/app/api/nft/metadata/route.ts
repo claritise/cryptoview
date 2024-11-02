@@ -39,8 +39,7 @@ type NFTMetadataResponse = {
 export async function POST(req: NextRequest) {
   try {
     // Parse the request body as JSON
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const body: RequestBody = await req.json();
+    const body = (await req.json()) as RequestBody;
     const { contractAddress, tokenId } = body; // Destructure contractAddress and tokenId from the body
 
     // Validate that both contractAddress and tokenId are provided
@@ -99,8 +98,7 @@ export async function POST(req: NextRequest) {
       }
 
       // Parse the metadata JSON from the response
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      metadata = await metadataResponse.json();
+      metadata = (await metadataResponse.json()) as NFTMetadataResponse;
     }
 
     // Fetch the contract's name (e.g., "Bored Ape Yacht Club")

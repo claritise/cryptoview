@@ -22,13 +22,28 @@ model NFTMetadata {
 
 // Transactions Collection
 model Transaction {
-    id          String   @id @default(auto()) @map("_id") @db.ObjectId
-    address     String   @db.String
-    hash        String
-    blockNumber Int
-    timestamp   DateTime
-    value       String
-    createdAt   DateTime @default(now())
+    id                String   @id @default(auto()) @map("_id") @db.ObjectId
+    address           String
+    blockNumber       Int
+    timeStamp         DateTime
+    hash              String   @unique
+    nonce             Int
+    blockHash         String
+    transactionIndex  Int
+    from              String
+    to                String
+    value             String
+    gas               String
+    gasPrice          String
+    isError           String
+    txreceipt_status  String
+    input             String
+    contractAddress   String
+    cumulativeGasUsed String
+    gasUsed           String
+    confirmations     Int
+    methodId          String?
+    functionName      String?
 }
 
 // IPFS Data Collection

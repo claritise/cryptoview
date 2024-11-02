@@ -9,6 +9,7 @@ export const env = createEnv({
   server: {
     DATABASE_URL: z.string().url(),
     INFURA_ETHEREUM_MAINNET_URL: z.string().url(),
+    ETHERSCAN_API_KEY: z.string(),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
@@ -32,6 +33,7 @@ export const env = createEnv({
     DATABASE_URL: process.env.DATABASE_URL,
     NEXT_PUBLIC_SWAGGER_URL: process.env.NEXT_PUBLIC_SWAGGER_URL,
     INFURA_ETHEREUM_MAINNET_URL: process.env.INFURA_ETHEREUM_MAINNET_URL,
+    ETHERSCAN_API_KEY: process.env.ETHERSCAN_API_KEY,
     NODE_ENV: process.env.NODE_ENV,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
