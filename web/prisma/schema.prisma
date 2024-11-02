@@ -1,20 +1,59 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// schema.prisma
 
 generator client {
     provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
+    provider = "mongodb"
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+// NFT Metadata Collection
+model NFTMetadata {
+    id              String   @id @default(auto()) @map("_id") @db.ObjectId
+    contractAddress String   @db.String
+    tokenId         String
+    name            String
+    description     String
+    imageUrl        String
+    createdAt       DateTime @default(now())
+}
 
-    @@index([name])
+// Transactions Collection
+model Transaction {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    address     String   @db.String
+    hash        String
+    blockNumber Int
+    timestamp   DateTime
+    value       String
+    createdAt   DateTime @default(now())
+}
+
+// IPFS Data Collection
+model IPFSData {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    data      String
+    ipfsHash  String
+    createdAt DateTime @default(now())
+}
+
+// Token Balance Collection
+model TokenBalance {
+    id              String   @id @default(auto()) @map("_id") @db.ObjectId
+    contractAddress String   @db.String
+    walletAddress   String   @db.String
+    balance         String
+    updatedAt       DateTime @default(now()) @updatedAt
+}
+
+// Smart Contract Transactions Collection
+model SmartContractTransaction {
+    id              String   @id @default(auto()) @map("_id") @db.ObjectId
+    fromAddress     String
+    toAddress       String
+    tokenAmount     String
+    transactionHash String
+    createdAt       DateTime @default(now())
 }
