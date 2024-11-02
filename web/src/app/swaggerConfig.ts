@@ -11,7 +11,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: env.SWAGGER_URL,
+        url: env.NEXT_PUBLIC_SWAGGER_URL,
       },
     ],
   },

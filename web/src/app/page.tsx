@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import { SwaggerUIBundle } from "swagger-ui-dist";
 import "swagger-ui-dist/swagger-ui.css";
+import { env } from "~/env";
 
 export default function Home() {
   const ref = useRef<HTMLDivElement>(null);
