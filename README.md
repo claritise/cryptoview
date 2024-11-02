@@ -7,6 +7,45 @@ Choose 3 tasks that you are confident in and can do.
 
 - **The Challenge:** Create an API endpoint that accepts an NFT contract address and token ID. It should retrieve the metadata (name, description, image URL) from the blockchain using web3.js, store it in MongoDB, and return the metadata to the user.
 - **Focus:** Demonstrates understanding of web3.js interaction with smart contracts, handling data from blockchain, and basic database integration.
+- **Notes:**
+
+### **Overview**
+
+- **Purpose:** Retrieve NFT metadata (name, description, image) from the blockchain, store in MongoDB, and return to the user.
+- **Technologies:** Uses `viem` for blockchain interaction, Prisma for database storage, and TypeScript for type safety.
+
+### **API Endpoint**
+
+- **Method:** `POST`
+- **URL:** `/api/nft/metadata`
+- **Request Parameters:**
+  - `contractAddress`: Ethereum contract address of the NFT collection.
+  - `tokenId`: Specific token ID within the collection.
+
+### **Functionality**
+
+- **Metadata Retrieval:**
+
+  - Fetches the `tokenURI` from the NFT contract.
+  - Supports `ipfs://`, `ar://`, and `data:` URI schemes.
+  - If `name` or `description` is missing, attempts to use the contract’s name or constructs a name with `tokenId`.
+
+- **Data Storage:**
+
+  - Stores `contractAddress`, `tokenId`, `name`, `description`, and `imageUrl` in MongoDB via Prisma.
+
+- **Error Handling:**
+  - Logs errors and returns a 500 response on failure.
+
+### **Test Commands**
+
+- curl -X POST http://localhost:3000/api/nft/metadata \
+  -H 'Content-Type: application/json' \
+  -d '{"contractAddress": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d", "tokenId": "1"}'
+
+- curl -X POST http://localhost:3000/api/nft/metadata \
+  -H 'Content-Type: application/json' \
+  -d '{"contractAddress": "0x8a90cab2b38dba80c64b7734e58ee1db38b8992e", "tokenId": "1"}'
 
 **2. Simple Cryptocurrency Transaction Tracking:**
 
@@ -34,3 +73,7 @@ Choose 3 tasks that you are confident in and can do.
 - **Evaluation Criteria:** Define clear evaluation criteria for the challenge, such as code readability, efficiency, error handling, and adherence to best practices.
 
 Let me know if you have any other specific requirements or scenarios you want to explore!
+
+```
+
+```
