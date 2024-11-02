@@ -10,7 +10,7 @@ export default function Home() {
   useEffect(() => {
     SwaggerUIBundle({
       domNode: ref.current!,
-      url: "/api/docs",
+      url: env.NEXT_PUBLIC_SWAGGER_URL + "/api/docs",
     });
   }, []);
 
