@@ -4,9 +4,9 @@ const swaggerOptions = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Next.js App Router API",
+      title: "cryptoview",
       version: "1.0.0",
-      description: "API documentation for Next.js App Router",
+      description: "cryptoview",
     },
     servers: [
       {

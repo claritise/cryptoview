@@ -1,0 +1,10 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "hardhat": "^2.22.15"
+  },
+  "packageManager": "pnpm@9.2.0"
+}
