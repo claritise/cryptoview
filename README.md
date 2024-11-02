@@ -143,6 +143,109 @@ curl -X GET 'http://localhost:3000/api/transactions?address=0x742d35Cc6634C05329
 - **The Challenge:** Create an API endpoint that allows users to store text data on IPFS using the IPFS API. The endpoint should store the IPFS hash of the data in MongoDB and provide a way for users to retrieve the data using the stored hash.
 - **Focus:** Demonstrates understanding of decentralized storage concepts, integrating with external APIs, and data persistence.
 
+## **Notes:**
+
+### **Overview**
+
+- **Purpose:** Allow users to store text data on IPFS using Helia, store the data and the IPFS hash in MongoDB, and provide a way for users to retrieve the data using the stored IPFS hash. Demonstrates integration with decentralized storage solutions and data persistence.
+
+- **Technologies:** Uses Helia and `@helia/verified-fetch` for IPFS interactions, Prisma for database storage, Next.js API routes for serverless functions, and TypeScript for type safety.
+
+### **API Endpoints**
+
+#### **1. Store Data on IPFS**
+
+- **Method:** `POST`
+- **URL:** `/api/ipfs`
+- **Request Body Parameters:**
+  - `content`: The text data to be stored on IPFS and in MongoDB.
+
+#### **2. Retrieve Data from Database or IPFS**
+
+- **Method:** `GET`
+- **URL:** `/api/ipfs`
+- **Query Parameters:**
+  - `hash`: The IPFS hash of the content to retrieve.
+
+### **Functionality**
+
+#### **Data Storage**
+
+- **Storing Content:**
+
+  - Accepts text content via a POST request.
+  - Adds the content to IPFS using Helia's `unixfs`.
+  - Stores both the `content` and the resulting `ipfsHash` in MongoDB via Prisma.
+
+#### **Data Retrieval**
+
+- **Retrieving Content:**
+
+  - Checks if the content is stored in MongoDB using the IPFS hash.
+  - If found, returns the content from the database.
+  - If not found, fetches the content from IPFS using `@helia/verified-fetch`.
+  - Optionally, stores the fetched content in the database for future requests.
+
+#### **Error Handling**
+
+- **Server-side Validation:**
+
+  - Validates input parameters (e.g., checks if `content` or `hash` is provided).
+  - Returns appropriate HTTP status codes and error messages.
+
+- **IPFS Error Handling:**
+
+  - Catches and logs errors during IPFS operations.
+  - Returns a 500 response with a generic error message to the client.
+
+- **Database Error Handling:**
+
+  - Catches and logs any database errors during storage or retrieval.
+  - Ensures the API remains robust against data inconsistencies.
+
+### **Test Commands**
+
+#### **1. Store Data on IPFS**
+
+Use the following `curl` command to test the POST endpoint:
+
+```bash
+curl -X POST http://localhost:3000/api/ipfs \
+  -H 'Content-Type: application/json' \
+  -d '{"content": "Hello, IPFS and MongoDB with Helia!"}'
+
+curl -X GET 'http://localhost:3000/api/ipfs?hash=bafkreigp62idvjsufvmanfd6tgryj4dxxdvoykqj5pksi3dmflfq7cq6cm'
+```
+
+### **Some considerations given this is a simple imeplementation**
+
+1. Data Availability and Persistence
+
+   • Ephemeral Nodes:
+   • Creating a new Helia node within each request (as done in the POST method) means the node is ephemeral. Once the request is completed, the node is destroyed.
+   • Impact: The data you’ve added to IPFS may not be persisted across the network because the node that provided the data is no longer available.
+   • Content Not Pinned:
+   • Without pinning, there’s no guarantee that other IPFS nodes will store or retain your content.
+   • Impact: The data may become inaccessible once your node goes offline, which can happen immediately after the request is processed.
+
+2. Limited Network Participation
+
+   • No DHT Participation:
+   • When using createHeliaHTTP(), the Helia node communicates via HTTP gateways and may not participate in the Distributed Hash Table (DHT) of the IPFS network.
+   • Impact: Your node doesn’t announce the availability of the content to the network, reducing the likelihood that other nodes will discover and cache your content.
+
+3. Performance Considerations
+
+   • Overhead of Node Creation:
+   • Creating a new Helia node for each request can introduce significant overhead, affecting the performance of your API.
+   • Impact: Increased latency and resource consumption, which can be especially problematic under high load.
+
+4. Potential Data Loss
+
+   • No Redundancy:
+   • Since the data is not pinned or replicated, any failure in the node or network can result in data loss.
+   • Impact: Users may not be able to retrieve their data when needed.
+
 **4. Token Balance Lookup:**
 
 - **The Challenge:** Build an API endpoint that accepts a token contract address and a wallet address. It should query the blockchain (using web3.js) to retrieve the balance of the specified token held by the wallet address and return the balance.
